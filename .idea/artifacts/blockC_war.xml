@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="blockC:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/blockC_war</output-path>
+    <root id="archive" name="blockC_war.war">
+      <element id="artifact" artifact-name="blockC:war exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="library" level="module" name="JUnit4" module-name="blockC" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

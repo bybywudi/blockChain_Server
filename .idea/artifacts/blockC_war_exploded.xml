@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="blockC:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/blockC_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="blockC/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="blockC" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/../day09-user/WebContent/WEB-INF/lib/dom4j-1.6.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/../day09-user/WebContent/WEB-INF/lib/commons-logging.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/../day09-user/WebContent/WEB-INF/lib/jaxen-1.1-beta-6.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/../day09-user/WebContent/WEB-INF/lib/commons-beanutils-1.8.0.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/../day09-user/WebContent/WEB-INF/lib/standard.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/../day09-user/WebContent/WEB-INF/lib/jstl.jar" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
