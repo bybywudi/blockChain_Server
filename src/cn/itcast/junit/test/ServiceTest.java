@@ -40,6 +40,6 @@ public class ServiceTest {
 	public void testAddNewBolck() {
 		BusinessServiceImpl service = new BusinessServiceImpl();
 
-		System.out.println(service.addNewBolck(2,"1"));
+		System.out.println(service.addNewBolck(10,"1"));
 	}
 }
