@@ -1,8 +1,8 @@
 package cn.itcast.dao;
 
 import cn.itcast.domain.Block;
+import cn.itcast.domain.ProblemBlock;
 import cn.itcast.domain.User;
-import org.dom4j.Attribute;
 
 public interface UserDao {
 
@@ -17,5 +17,9 @@ public interface UserDao {
 	public boolean isHashRight(int id,String userId);
 	//查找注册的用户是否在数据库中存在
 	boolean find(String username);
+
+	public boolean findResIndex(String index);
+
+	public void addNewResBolck(ProblemBlock block, int nowid);
 
 }

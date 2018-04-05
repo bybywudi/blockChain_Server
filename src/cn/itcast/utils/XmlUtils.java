@@ -15,15 +15,18 @@ public class XmlUtils {
 	
 	private static String usersfilepath;
 	private static String blocksfilepath;
+	private static String resfilepath;
 	static {
 		//usersfilepath = XmlUtils.class.getClassLoader().getResource("users.xml").getPath();
 		//判断操作系统
 		if(System.getProperty("file.separator").equals("/")) {
 			usersfilepath = "/home/upfiles/block/users.xml";
 			blocksfilepath = "/home/upfiles/block/blocks.xml";
+			resfilepath = "/home/upfiles/block/res.xml";
 		}else{
 			usersfilepath = "D:\\users.xml";
 			blocksfilepath = "D:\\blocks.xml";
+			resfilepath = "D:\\res.xml";
 		}
 
 		try {
@@ -60,6 +63,13 @@ public class XmlUtils {
 		return document;
 
 	}
+
+	public static Document getResBlocksDocument() throws Exception {
+		SAXReader reader = new SAXReader();
+		Document document = reader.read(new File(resfilepath));
+		return document;
+
+	}
 	
 	public static void write2UsersXml(Document document) throws IOException, IOException {
 		
@@ -76,6 +86,16 @@ public class XmlUtils {
 		OutputFormat format = OutputFormat.createPrettyPrint();
 		format.setEncoding("UTF-8");
 		XMLWriter writer = new XMLWriter(new FileOutputStream(blocksfilepath), format);
+		writer.write(document);
+		writer.close();
+
+	}
+
+	public static void write2ResXml(Document document) throws IOException, IOException {
+
+		OutputFormat format = OutputFormat.createPrettyPrint();
+		format.setEncoding("UTF-8");
+		XMLWriter writer = new XMLWriter(new FileOutputStream(resfilepath), format);
 		writer.write(document);
 		writer.close();
 
