@@ -58,11 +58,13 @@ public class BusinessServiceImpl {
 
 			ProblemBlock pb = new ProblemBlock();
 			pb.setHash(dao.blockHash(nowId));
+			//pb.setHash(1);
 			pb.setIndex(index);
 			pb.setIp(ip);
 			pb.setRes(res);
 
 			dao.addNewResBolck(pb,dao.blockHash(nowId));
+			//dao.addNewResBolck(pb,1);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

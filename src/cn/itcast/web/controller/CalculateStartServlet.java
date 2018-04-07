@@ -7,7 +7,7 @@ import java.util.Enumeration;
 
 @WebServlet("/CalculateStartServlet")
 public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
-    public static String[] ips = {"47.95.194.16","39.107.85.11"};
+    public static String[] ips = {"47.95.194.16","39.106.194.129"};
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         doGet(request, response);
@@ -16,15 +16,17 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
 
         int ipLenth = ips.length;
+        int j = 0;
         for(int i=0;i<ipLenth;i++){
             HttpURLConnection connection = null;
             try{
-                URL u = new URL("http://"+ips[i]+":8080/block/CalculateServlet"+"?index="+Integer.toString(i));
+                URL u = new URL("http://"+ips[i]+":8080/block/CalculateServlet"+"?index="+Integer.toString(j));
                 connection = (HttpURLConnection)u.openConnection();
                 connection.setConnectTimeout(200);
                 //connection.setReadTimeout(2000);
                 connection.setRequestMethod("GET");
-
+                j = j+50;
+                System.out.println(connection.getResponseCode());
             }catch(MalformedURLException e){
                 //e.printStackTrace();
             }catch(IOException e){
@@ -40,7 +42,7 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
 
     }
 
-    public static int doCalculate(int index){
+ /*   public static int doCalculate(int index){
         int res = 0;
         for(int i=10000 * (index-1) + 1;i<=10000 * index;i++){
             for(int j=2;j<i;j++){
@@ -54,7 +56,7 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
         }
 
         return res;
-    }
+    }*/
 
 
     public static String getRealIp() throws SocketException {

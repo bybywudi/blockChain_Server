@@ -26,12 +26,18 @@ public class UserDaoTest {
 	@Test
 	public void testFind() {
 		UserDao dao = new UserDaoImpl();
-		dao.find("aaa", "123");		//�޷���excepressions�����п�������ֵ����ʾ�޷�����������
+		System.out.println(dao.find("aaaa"));
 	}
 	
 	@Test
 	public void testFindByUsername() {
 		UserDao dao = new UserDaoImpl();
 		System.out.println(dao.find("aaa"));
+	}
+
+	@Test
+	public void testFindResIndex() {
+		UserDao dao = new UserDaoImpl();
+		System.out.println(dao.findResIndex("1"));
 	}
 }

@@ -145,7 +145,7 @@ public class UserDaoImpl implements UserDao {
 	//查找一个子问题的结果是否已经被计算出来
 	public boolean findResIndex(String index) {
 		try {
-			Document document = XmlUtils.getDocument();
+			Document document = XmlUtils.getResBlocksDocument();
 			Element e = (Element) document.selectSingleNode("//res[@index='"+index+"']");
 			if(e==null) {
 				return false;

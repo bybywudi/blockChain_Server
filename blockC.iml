@@ -27,19 +27,28 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://D:/baiyang/jar/commons-beanutils-1.9.3/commons-beanutils-1.9.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../jars/dom4j-2.0.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://D:/baiyang/jar/dom4j-2.0.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../jars/commons-beanutils-1.9.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../jars/jaxen-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

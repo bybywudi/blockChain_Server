@@ -24,21 +24,22 @@ public class CalculateServlet extends javax.servlet.http.HttpServlet {
 
         BusinessServiceImpl service = new BusinessServiceImpl();
 
-        if(!service.findResIndex(index)){
+        /*if(!service.findResIndex(index)){
             service.addNewResBlock(index,ip,result);
-        }
-
-        int i=0;
+        }*/
+        service.addNewResBlock(index,ip,result);
+        int i=Integer.parseInt(index);
         for(;i<PROBLEMSIZE;i++){
             if(!service.findResIndex(Integer.toString(i))){
                 HttpURLConnection connection = null;
                 try{
                     URL u = new URL("http://"+ip+":8080/block/CalculateServlet"+"?index="+Integer.toString(i));
                     connection = (HttpURLConnection)u.openConnection();
-                    connection.setConnectTimeout(200);
+                    connection.setConnectTimeout(2000);
                     //connection.setReadTimeout(2000);
                     connection.setRequestMethod("GET");
-                    return;
+                    System.out.println(connection.getResponseCode());
+                    System.out.println(u.toString());
                 }catch(MalformedURLException e){
                     //e.printStackTrace();
                 }catch(IOException e){
@@ -47,6 +48,7 @@ public class CalculateServlet extends javax.servlet.http.HttpServlet {
                     if(connection != null){
                         connection.disconnect();
                     }
+                    return;
                 }
             }
         }
