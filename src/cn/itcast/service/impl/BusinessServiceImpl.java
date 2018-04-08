@@ -2,10 +2,14 @@ package cn.itcast.service.impl;
 
 import cn.itcast.dao.UserDao;
 import cn.itcast.dao.impl.UserDaoImpl;
-import cn.itcast.domain.Block;
+import cn.itcast.domain.ProblemBlock;
 import cn.itcast.domain.User;
 import cn.itcast.exception.UserExistException;
 import cn.itcast.utils.ServiceUtils;
+import cn.itcast.utils.XmlUtils;
+import org.dom4j.Attribute;
+import org.dom4j.Document;
+import org.dom4j.Element;
 
 //对web层提供所有业务服务
 public class BusinessServiceImpl {
@@ -39,5 +43,31 @@ public class BusinessServiceImpl {
 		}
 	}
 
+	//判断当前的子问题有没有被求解出来
+	public boolean findResIndex(String index){
+		return dao.findResIndex(index);
+	}
+
+	public void addNewResBlock(String index,String ip,String res){
+		try {
+			Document document = XmlUtils.getResBlocksDocument();
+			Element root = document.getRootElement();
+			Element e = (Element) root.selectSingleNode("nowid");
+			Attribute attr = e.attribute("id");
+			int nowId = Integer.parseInt(attr.getValue());
+
+			ProblemBlock pb = new ProblemBlock();
+			pb.setHash(dao.blockHash(nowId));
+			//pb.setHash(1);
+			pb.setIndex(index);
+			pb.setIp(ip);
+			pb.setRes(res);
+
+			dao.addNewResBolck(pb,dao.blockHash(nowId));
+			//dao.addNewResBolck(pb,1);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 }

@@ -5,8 +5,26 @@ import java.util.Date;
 public class Block {
 	private Integer id;
 	private String userId;
+	private String problemId;
+	private String getProblemRes;
 	private String information1;
 	private String information2;
+
+	public String getProblemId() {
+		return problemId;
+	}
+
+	public void setProblemId(String problemId) {
+		this.problemId = problemId;
+	}
+
+	public String getGetProblemRes() {
+		return getProblemRes;
+	}
+
+	public void setGetProblemRes(String getProblemRes) {
+		this.getProblemRes = getProblemRes;
+	}
 
 	public Integer getId() {
 		return id;

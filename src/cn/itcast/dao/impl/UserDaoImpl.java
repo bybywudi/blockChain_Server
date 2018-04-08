@@ -2,6 +2,7 @@ package cn.itcast.dao.impl;
 
 import cn.itcast.dao.UserDao;
 import cn.itcast.domain.Block;
+import cn.itcast.domain.ProblemBlock;
 import cn.itcast.domain.User;
 import cn.itcast.utils.XmlUtils;
 import org.dom4j.Attribute;
@@ -136,6 +137,45 @@ public class UserDaoImpl implements UserDao {
 				return false;
 			}
 			return true;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	//查找一个子问题的结果是否已经被计算出来
+	public boolean findResIndex(String index) {
+		try {
+			Document document = XmlUtils.getResBlocksDocument();
+			Element e = (Element) document.selectSingleNode("//res[@index='"+index+"']");
+			if(e==null) {
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	//增加一个新的子问题结果区块
+	public void addNewResBolck(ProblemBlock block, int nowid){
+		try {
+			Document document = XmlUtils.getResBlocksDocument();
+			Element root = document.getRootElement();
+
+			int preHash = block.getHash() - 1;
+			Element user_tag = root.addElement("res");
+			user_tag.setAttributeValue("hash", block.getHash().toString());
+			user_tag.setAttributeValue("prehash", Integer.toString(preHash));
+			user_tag.setAttributeValue("index", block.getIndex());
+			user_tag.setAttributeValue("ip", block.getIp());
+			user_tag.setAttributeValue("res", block.getRes());
+
+			Element e = (Element) root.selectSingleNode("nowid");
+			Attribute attr = e.attribute("id");
+			attr.setValue(Integer.toString(nowid));
+
+			XmlUtils.write2ResXml(document);
+
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
