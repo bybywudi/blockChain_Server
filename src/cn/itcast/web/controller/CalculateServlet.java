@@ -24,10 +24,10 @@ public class CalculateServlet extends javax.servlet.http.HttpServlet {
 
         BusinessServiceImpl service = new BusinessServiceImpl();
 
-        /*if(!service.findResIndex(index)){
+        if(!service.findResIndex(index)){
             service.addNewResBlock(index,ip,result);
-        }*/
-        service.addNewResBlock(index,ip,result);
+        }
+        //service.addNewResBlock(index,ip,result);
         int i=Integer.parseInt(index);
         for(;i<PROBLEMSIZE;i++){
             if(!service.findResIndex(Integer.toString(i))){
@@ -35,7 +35,7 @@ public class CalculateServlet extends javax.servlet.http.HttpServlet {
                 try{
                     URL u = new URL("http://"+ip+":8080/block/CalculateServlet"+"?index="+Integer.toString(i));
                     connection = (HttpURLConnection)u.openConnection();
-                    connection.setConnectTimeout(2000);
+                    connection.setConnectTimeout(200);
                     //connection.setReadTimeout(2000);
                     connection.setRequestMethod("GET");
                     System.out.println(connection.getResponseCode());
