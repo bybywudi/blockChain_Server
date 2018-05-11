@@ -59,6 +59,38 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
+    public String getMid(){
+        try {
+            Document document = XmlUtils.getLocalDocument();
+            Element root = document.getRootElement();
+
+            Element e = (Element) root.selectSingleNode("nowid");
+            Attribute attr = e.attribute("id");
+            int mid = Integer.parseInt(e.attributeValue("id")) + 1;//任务ID自增
+            attr.setValue(Integer.toString(mid));
+
+            XmlUtils.write2LocalXml(document);
+
+            return Integer.toString(mid);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public  String getUserIp() {
+        try {
+            Document document = XmlUtils.getLocalDocument();
+            Element e = (Element) document.selectSingleNode("//local[@attr='localip']");
+            if(e==null) {
+                return null;
+            }
+            return e.attributeValue("id");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 	public int blockHash(int id){
 		return id + 1;
 	}
@@ -168,6 +200,9 @@ public class UserDaoImpl implements UserDao {
 			user_tag.setAttributeValue("prehash", Integer.toString(preHash));
 			user_tag.setAttributeValue("index", block.getIndex());
 			user_tag.setAttributeValue("ip", block.getIp());
+            user_tag.setAttributeValue("qid", block.getQid());
+            user_tag.setAttributeValue("mid", block.getMid());
+            user_tag.setAttributeValue("host", block.getHost());
 			user_tag.setAttributeValue("res", block.getRes());
 
 			Element e = (Element) root.selectSingleNode("nowid");

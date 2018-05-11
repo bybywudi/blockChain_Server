@@ -5,7 +5,9 @@ public class ProblemBlock {
 	private String ip;
 	private String index;
 	private String res;
-
+	private String qid;
+	private String mid;
+	private String host;
 	public Integer getHash() {
 		return hash;
 	}
@@ -36,5 +38,29 @@ public class ProblemBlock {
 
 	public void setRes(String res) {
 		this.res = res;
+	}
+
+	public String getQid() {
+		return qid;
+	}
+
+	public void setQid(String qid) {
+		this.qid = qid;
+	}
+
+	public String getMid() {
+		return mid;
+	}
+
+	public void setMid(String mid) {
+		this.mid = mid;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
 	}
 }

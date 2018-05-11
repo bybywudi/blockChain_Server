@@ -48,7 +48,7 @@ public class BusinessServiceImpl {
 		return dao.findResIndex(index);
 	}
 
-	public void addNewResBlock(String index,String ip,String res){
+	public void addNewResBlock(String index,String ip,String res,String qid,String mid,String host){
 		try {
 			Document document = XmlUtils.getResBlocksDocument();
 			Element root = document.getRootElement();
@@ -62,6 +62,9 @@ public class BusinessServiceImpl {
 			pb.setIndex(index);
 			pb.setIp(ip);
 			pb.setRes(res);
+			pb.setQid(qid);
+			pb.setMid(mid);
+			pb.setHost(host);
 
 			dao.addNewResBolck(pb,dao.blockHash(nowId));
 			//dao.addNewResBolck(pb,1);
@@ -70,4 +73,11 @@ public class BusinessServiceImpl {
 		}
 	}
 
+	public String getMid(){
+		return dao.getMid();
+	}
+
+	public String getUserIp(){
+		return dao.getUserIp();
+	}
 }

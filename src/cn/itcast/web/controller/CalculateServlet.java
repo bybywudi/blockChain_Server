@@ -21,11 +21,13 @@ public class CalculateServlet extends javax.servlet.http.HttpServlet {
         String index = request.getParameter("index");
         String result = request.getParameter("result");
         String ip = request.getParameter("ip");
-
+        String qid = request.getParameter("qid");
+        String mid = request.getParameter("mid");
+        String host = request.getParameter("host");
         BusinessServiceImpl service = new BusinessServiceImpl();
 
         if(!service.findResIndex(index)){
-            service.addNewResBlock(index,ip,result);
+            service.addNewResBlock(index,ip,result,qid,mid,host);
         }
         //service.addNewResBlock(index,ip,result);
         int i=Integer.parseInt(index);
@@ -33,7 +35,7 @@ public class CalculateServlet extends javax.servlet.http.HttpServlet {
             if(!service.findResIndex(Integer.toString(i))){
                 HttpURLConnection connection = null;
                 try{
-                    URL u = new URL("http://"+ip+":8080/block/CalculateServlet"+"?index="+Integer.toString(i));
+                    URL u = new URL("http://"+ip+":8080/block/CalculateServlet"+"?index="+Integer.toString(i)+"?qid="+qid+"?mid="+mid+"?host="+host);
                     connection = (HttpURLConnection)u.openConnection();
                     connection.setConnectTimeout(200);
                     //connection.setReadTimeout(2000);

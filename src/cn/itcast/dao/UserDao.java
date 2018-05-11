@@ -22,4 +22,7 @@ public interface UserDao {
 
 	public void addNewResBolck(ProblemBlock block, int nowid);
 
+	public String getMid();
+
+	public String getUserIp();
 }

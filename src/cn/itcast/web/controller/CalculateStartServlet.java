@@ -1,5 +1,7 @@
 package cn.itcast.web.controller;
 
+import cn.itcast.service.impl.BusinessServiceImpl;
+
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 import java.net.*;
@@ -37,16 +39,30 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
 
     }
 
-    public static String[] ips = {"47.95.194.16","39.107.83.2"};
+    public static String[] ips = {"47.95.194.16","39.107.83.2","39.106.194.129"};
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         doGet(request, response);
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+        BusinessServiceImpl service = new BusinessServiceImpl();
 
         int ipLenth = ips.length;
         int j = 0;
+        String[] index = new String[ipLenth];
+        index[0] = request.getParameter("index1");
+        index[1] = request.getParameter("index2");
+        index[2] = request.getParameter("index3");
+        String qid = request.getParameter("qid");
+        String mid = service.getMid();
+        String host = service.getUserIp();
+        for(int i=0;i<ipLenth;i++){
+            Thread_Http_Get t = new Thread_Http_Get("http://"+ips[i]+":8080/block/CalculateServlet"+"?index="+index[i]+"?qid="+qid+"?mid="+mid+"?host="+host);
+            t.start();
+        }
+
+        return;
         /*for(int i=0;i<ipLenth;i++){
             HttpURLConnection connection = null;
             try{
@@ -97,12 +113,7 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
                 connection2.disconnect();
             }
         }*/
-        Thread_Http_Get t1 = new Thread_Http_Get("http://"+ips[0]+":8080/block/CalculateServlet"+"?index="+Integer.toString(1));
-        Thread_Http_Get t2 = new Thread_Http_Get("http://"+ips[1]+":8080/block/CalculateServlet"+"?index="+Integer.toString(65));
 
-        t1.start();
-        t2.start();
-        return;
 
     }
 
