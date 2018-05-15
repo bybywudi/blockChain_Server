@@ -175,10 +175,10 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	//查找一个子问题的结果是否已经被计算出来
-	public boolean findResIndex(String index) {
+	public boolean findResIndex(String index,String mid) {
 		try {
 			Document document = XmlUtils.getResBlocksDocument();
-			Element e = (Element) document.selectSingleNode("//res[@index='"+index+"']");
+			Element e = (Element) document.selectSingleNode("//res[@index='"+index+"' and @mid='"+mid+"']");
 			if(e==null) {
 				return false;
 			}

@@ -26,13 +26,13 @@ public class CalculateServlet extends javax.servlet.http.HttpServlet {
         String host = request.getParameter("host");
         BusinessServiceImpl service = new BusinessServiceImpl();
 
-        if(!service.findResIndex(index)){
+        if(!service.findResIndex(index,mid)){
             service.addNewResBlock(index,ip,result,qid,mid,host);
         }
         //service.addNewResBlock(index,ip,result);
         int i=Integer.parseInt(index);
         for(;i<PROBLEMSIZE;i++){
-            if(!service.findResIndex(Integer.toString(i))){
+            if(!service.findResIndex(Integer.toString(i),mid)){
                 HttpURLConnection connection = null;
                 try{
                     URL u = new URL("http://"+ip+":8080/block/CalculateServlet"+"?index="+Integer.toString(i)+"?qid="+qid+"?mid="+mid+"?host="+host);

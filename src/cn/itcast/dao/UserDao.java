@@ -18,7 +18,7 @@ public interface UserDao {
 	//查找注册的用户是否在数据库中存在
 	boolean find(String username);
 
-	public boolean findResIndex(String index);
+	public boolean findResIndex(String index,String mid);
 
 	public void addNewResBolck(ProblemBlock block, int nowid);
 

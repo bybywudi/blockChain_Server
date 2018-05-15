@@ -44,8 +44,8 @@ public class BusinessServiceImpl {
 	}
 
 	//判断当前的子问题有没有被求解出来
-	public boolean findResIndex(String index){
-		return dao.findResIndex(index);
+	public boolean findResIndex(String index,String mid){
+		return dao.findResIndex(index,mid);
 	}
 
 	public void addNewResBlock(String index,String ip,String res,String qid,String mid,String host){
