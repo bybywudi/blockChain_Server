@@ -58,7 +58,7 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
         String mid = service.getMid();
         String host = service.getUserIp();
         for(int i=0;i<ipLenth;i++){
-            Thread_Http_Get t = new Thread_Http_Get("http://"+ips[i]+":8080/block/CalculateServlet"+"?index="+index[i]+"?qid="+qid+"?mid="+mid+"?host="+host);
+            Thread_Http_Get t = new Thread_Http_Get("http://"+ips[i]+":8080/block/CalculateServlet"+"?index="+index[i]+"&qid="+qid+"&mid="+mid+"&host="+host);
             t.start();
         }
 

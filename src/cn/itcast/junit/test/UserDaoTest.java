@@ -35,9 +35,4 @@ public class UserDaoTest {
 		System.out.println(dao.find("aaa"));
 	}
 
-	@Test
-	public void testFindResIndex() {
-		UserDao dao = new UserDaoImpl();
-		System.out.println(dao.findResIndex("1"));
-	}
 }

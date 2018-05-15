@@ -42,18 +42,4 @@ public class ServiceTest {
 
 		System.out.println(service.addNewBolck(10,"1"));
 	}
-
-	@Test
-	public void testAddNewResBlock() {
-		BusinessServiceImpl service = new BusinessServiceImpl();
-
-		service.addNewResBlock("0","39.106.194.129","1228");
-	}
-
-	@Test
-	public void testFindResIndex() {
-		BusinessServiceImpl service = new BusinessServiceImpl();
-
-		System.out.println(service.findResIndex("2"));
-	}
 }
