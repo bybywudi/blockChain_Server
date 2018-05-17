@@ -8,7 +8,9 @@ import org.dom4j.Element;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 @WebServlet("/CalculateStartServlet")
 public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
@@ -42,7 +44,7 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
 
     }
 
-    public static String[] ips = {"47.95.194.16","39.107.83.2","39.106.194.129"};
+    //public static String[] ips = {"47.95.194.16","39.107.83.2","39.106.194.129"};
     public String localIp = getUserIp();
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
@@ -51,6 +53,10 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         BusinessServiceImpl service = new BusinessServiceImpl();
+
+        List<String> list = service.getUserIps();
+        String[] ips = new String[list.size()];
+        list.toArray(ips);
 
         int ipLenth = ips.length;
         int j = 0;

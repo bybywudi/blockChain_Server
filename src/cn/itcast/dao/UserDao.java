@@ -4,6 +4,8 @@ import cn.itcast.domain.Block;
 import cn.itcast.domain.ProblemBlock;
 import cn.itcast.domain.User;
 
+import java.util.List;
+
 public interface UserDao {
 
 	void add(User user);
@@ -27,4 +29,6 @@ public interface UserDao {
 	public String getUserIp();
 
 	public int getUsersTotalNumber();
+
+	public List<String> getUserIps();
 }

@@ -11,6 +11,8 @@ import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.Element;
 
+import java.util.List;
+
 //对web层提供所有业务服务
 public class BusinessServiceImpl {
 
@@ -79,5 +81,13 @@ public class BusinessServiceImpl {
 
 	public String getUserIp(){
 		return dao.getUserIp();
+	}
+
+	public int getUsersTotalNumber(){
+		return dao.getUsersTotalNumber();
+	}
+
+	public List<String> getUserIps(){
+		return dao.getUserIps();
 	}
 }

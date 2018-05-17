@@ -76,17 +76,21 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
+	//获得所有用户的IP存在list中
 	public List<String> getUserIps(){
 		try {
 			Document document = XmlUtils.getBlocksDocument();
 
 			int usersTotalNumber = getUsersTotalNumber();
 			List<String> list = new ArrayList<String>();
+			String localIp = getUserIp();
 			for(int i=1;i<=usersTotalNumber;i++){
 				Element e = (Element) document.selectSingleNode("//user[@id='"+Integer.toString(i)+"']");
 				Attribute attr = e.attribute("ip");
 				String ip = attr.getValue();
-				list.add(ip);
+				if(!(ip.equals(localIp))){
+					list.add(ip);
+				}
 			}
 			return list;
 		} catch (Exception e) {

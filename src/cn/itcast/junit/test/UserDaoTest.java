@@ -6,6 +6,7 @@ import cn.itcast.domain.User;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.List;
 
 public class UserDaoTest {
 	
@@ -33,6 +34,23 @@ public class UserDaoTest {
 	public void testFindByUsername() {
 		UserDao dao = new UserDaoImpl();
 		System.out.println(dao.find("aaa"));
+	}
+
+	@Test
+	public void testGetUserIps() {
+		UserDao dao = new UserDaoImpl();
+		List list = dao.getUserIps();
+		System.out.println(dao.getUsersTotalNumber());
+		System.out.println(list.size());
+		for(int i=0;i<list.size();i++){
+			System.out.println(list.get(i));
+		}
+		List<String> list2 = dao.getUserIps();
+		String[] ips = new String[list.size()];
+		list2.toArray(ips);
+		for(int i=0;i<list.size();i++){
+			System.out.println(ips[i]);
+		}
 	}
 
 }
