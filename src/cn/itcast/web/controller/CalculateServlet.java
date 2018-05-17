@@ -24,14 +24,19 @@ public class CalculateServlet extends javax.servlet.http.HttpServlet {
         String qid = request.getParameter("qid");
         String mid = request.getParameter("mid");
         String host = request.getParameter("host");
-        BusinessServiceImpl service = new BusinessServiceImpl();
 
+        BusinessServiceImpl service = new BusinessServiceImpl();
+        int userTotalNum = service.getUsersTotalNumber() - 1;
         if(!service.findResIndex(index,mid)){
             service.addNewResBlock(index,ip,result,qid,mid,host);
         }
         //service.addNewResBlock(index,ip,result);
         int i=Integer.parseInt(index);
-        for(;i<PROBLEMSIZE;i++){
+        if((i+userTotalNum) > PROBLEMSIZE){
+            i = i+userTotalNum+1-PROBLEMSIZE;
+        }
+        int loopNum = 0;//控制循环次数的变量
+        for(;i<PROBLEMSIZE;i=i+userTotalNum){
             if(!service.findResIndex(Integer.toString(i),mid)){
                 HttpURLConnection connection = null;
                 try{
@@ -50,7 +55,14 @@ public class CalculateServlet extends javax.servlet.http.HttpServlet {
                     if(connection != null){
                         connection.disconnect();
                     }
-                    return;
+                    break;
+                }
+            }
+            if((i+userTotalNum) > PROBLEMSIZE){
+                i = i+userTotalNum+1-PROBLEMSIZE;
+                loopNum++;
+                if(loopNum >= userTotalNum){
+                    break;
                 }
             }
         }
