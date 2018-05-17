@@ -10,6 +10,8 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDaoImpl implements UserDao {
 	
@@ -59,6 +61,40 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
+	//获得用户总数
+	public int getUsersTotalNumber(){
+		try {
+			Document document = XmlUtils.getBlocksDocument();
+			Element root = document.getRootElement();
+			Element e = (Element) root.selectSingleNode("nowid");
+			Attribute attr = e.attribute("id");
+
+			return Integer.parseInt(attr.getValue());
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public List<String> getUserIps(){
+		try {
+			Document document = XmlUtils.getBlocksDocument();
+
+			int usersTotalNumber = getUsersTotalNumber();
+			List<String> list = new ArrayList<String>();
+			for(int i=1;i<=usersTotalNumber;i++){
+				Element e = (Element) document.selectSingleNode("//user[@id='"+Integer.toString(i)+"']");
+				Attribute attr = e.attribute("ip");
+				String ip = attr.getValue();
+				list.add(ip);
+			}
+			return list;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	//获得任务ID
     public String getMid(){
         try {
             Document document = XmlUtils.getLocalDocument();
@@ -78,6 +114,7 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    //获得用户IP
     public  String getUserIp() {
         try {
             Document document = XmlUtils.getLocalDocument();

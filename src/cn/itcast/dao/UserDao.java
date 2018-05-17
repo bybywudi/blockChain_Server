@@ -25,4 +25,6 @@ public interface UserDao {
 	public String getMid();
 
 	public String getUserIp();
+
+	public int getUsersTotalNumber();
 }

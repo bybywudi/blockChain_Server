@@ -1,6 +1,9 @@
 package cn.itcast.web.controller;
 
 import cn.itcast.service.impl.BusinessServiceImpl;
+import cn.itcast.utils.XmlUtils;
+import org.dom4j.Document;
+import org.dom4j.Element;
 
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
@@ -40,6 +43,7 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
     }
 
     public static String[] ips = {"47.95.194.16","39.107.83.2","39.106.194.129"};
+    public String localIp = getUserIp();
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         doGet(request, response);
@@ -58,6 +62,9 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
         String mid = service.getMid();
         String host = service.getUserIp();
         for(int i=0;i<ipLenth;i++){
+            if(ips[i].equals(localIp)){
+                continue;
+            }
             Thread_Http_Get t = new Thread_Http_Get("http://"+ips[i]+":8080/block/CalculateServlet"+"?index="+index[i]+"&qid="+qid+"&mid="+mid+"&host="+host);
             t.start();
         }
@@ -132,6 +139,19 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
 
         return res;
     }*/
+
+    public String getUserIp() {
+        try {
+            Document document = XmlUtils.getLocalDocument();
+            Element e = (Element) document.selectSingleNode("//local[@attr='localip']");
+            if(e==null) {
+                return null;
+            }
+            return e.attributeValue("id");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
     public static String getRealIp() throws SocketException {
