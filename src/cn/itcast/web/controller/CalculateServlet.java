@@ -55,14 +55,14 @@ public class CalculateServlet extends javax.servlet.http.HttpServlet {
                     if(connection != null){
                         connection.disconnect();
                     }
-                    break;
+                    return;
                 }
             }
-            if((i+userTotalNum) > PROBLEMSIZE){
+            if((i+userTotalNum) >= PROBLEMSIZE){
                 i = i+userTotalNum+1-PROBLEMSIZE;
                 loopNum++;
                 if(loopNum >= userTotalNum){
-                    break;
+                    return;
                 }
             }
         }
