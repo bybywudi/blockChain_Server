@@ -118,6 +118,50 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+	public void addUserCoin(int i,String uip){
+		try {
+			/*Document document = XmlUtils.getLocalDocument();
+			Element e = (Element) document.selectSingleNode("//local[@attr='coin']");
+			Attribute attr = e.attribute("id");
+			int newCoin = Integer.parseInt(e.attributeValue("id")) + i;//任务ID自增
+			attr.setValue(Integer.toString(newCoin));
+			XmlUtils.write2LocalXml(document);*/
+
+			Document document2 = XmlUtils.getBlocksDocument();
+			//Element e2 = (Element) document2.selectSingleNode("//user[@id='1']");//user[@id='1']
+			//e2 = (Element) document.selectSingleNode("//user[@id='"+user+"']");
+
+			Element e2 = (Element) document2.selectSingleNode("//user[@ip='"+uip+"']");
+			//System.out.println(uip);
+			Attribute attr2 = e2.attribute("coin");
+			int newCoin = Integer.parseInt(e2.attributeValue("coin")) + i;//任务ID自增
+			attr2.setValue(Integer.toString(newCoin));
+			XmlUtils.write2BlocksXml(document2);
+
+			/*Attribute attr2 = e2.attribute("coin");
+			attr2.setValue(Integer.toString(newCoin));
+			XmlUtils.write2BlocksXml(document2);*/
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void addC(int i,String uip){
+		try {
+
+			Document document = XmlUtils.getBlocksDocument();
+			Element e2 = (Element) document.selectSingleNode("//user[@ip='"+uip+"']");
+			System.out.println(uip);
+			Attribute attr2 = e2.attribute("coin");
+			attr2.setValue(Integer.toString(1));
+			XmlUtils.write2BlocksXml(document);
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
     //获得用户IP
     public  String getUserIp() {
         try {

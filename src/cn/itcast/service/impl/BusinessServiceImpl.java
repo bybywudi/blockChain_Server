@@ -90,4 +90,8 @@ public class BusinessServiceImpl {
 	public List<String> getUserIps(){
 		return dao.getUserIps();
 	}
+
+	public void addUserCoin(int i,String ip){
+		dao.addUserCoin(i,ip);
+	}
 }

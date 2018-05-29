@@ -40,17 +40,30 @@ public class UserDaoTest {
 	public void testGetUserIps() {
 		UserDao dao = new UserDaoImpl();
 		List list = dao.getUserIps();
-		System.out.println(dao.getUsersTotalNumber());
-		System.out.println(list.size());
+		System.out.println("用户总数："+dao.getUsersTotalNumber());
+		System.out.println("发送总数："+list.size());
 		for(int i=0;i<list.size();i++){
 			System.out.println(list.get(i));
 		}
-		List<String> list2 = dao.getUserIps();
+		/*List<String> list2 = dao.getUserIps();
 		String[] ips = new String[list.size()];
 		list2.toArray(ips);
 		for(int i=0;i<list.size();i++){
 			System.out.println(ips[i]);
-		}
+		}*/
 	}
 
+	@Test
+	public void testAddUserCoin() {
+		UserDao dao = new UserDaoImpl();
+		String ip = "39.106.194.129";
+		dao.addUserCoin(1,ip);
+	}
+
+	@Test
+	public void testAddC() {
+		UserDao dao = new UserDaoImpl();
+		String uip = "39.106.194.129";
+		dao.addC(1,uip);
+	}
 }

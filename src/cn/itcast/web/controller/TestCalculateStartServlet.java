@@ -9,12 +9,11 @@ import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.*;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-@WebServlet("/CalculateStartServlet")
-public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
+@WebServlet("/TestCalculateStartServlet")
+public class TestCalculateStartServlet extends javax.servlet.http.HttpServlet {
 
     class Thread_Http_Get extends Thread{
         private String httpurl;
@@ -66,11 +65,20 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
         String mid = service.getMid();
         String host = service.getUserIp();
 
-
-        for(int i=0;i<ipLenth;i++){
-            Thread_Http_Get t = new Thread_Http_Get("http://"+ips[i]+":8080/block/CalculateServlet"+"?index="+Integer.toString(i)+"&qid="+qid+"&mid="+mid+"&host="+host);
+        PrintWriter out = response.getWriter();
+        out.print(ips[0]);
+        out.print(ips[1]);
+        out.print(host);
+        out.write(ips[0]);
+        out.write(ips[1]);
+        out.write(host);
+        System.out.println(ips[0]);
+        System.out.println(ips[1]);
+        System.out.println(host);
+       /* for(int i=0;i<ipLenth;i++){
+            Thread_Http_Get t = new Thread_Http_Get("http://"+ips[i]+":8088/block/CalculateServlet"+"?index="+Integer.toString(i)+"&qid="+qid+"&mid="+mid+"&host="+host);
             t.start();
-        }
+        }*/
 
         return;
         /*for(int i=0;i<ipLenth;i++){

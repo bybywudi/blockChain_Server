@@ -29,6 +29,7 @@ public class CalculateServlet extends javax.servlet.http.HttpServlet {
         int userTotalNum = service.getUsersTotalNumber() - 1;
         if(!service.findResIndex(index,mid)){
             service.addNewResBlock(index,ip,result,qid,mid,host);
+            service.addUserCoin(1,ip);
         }
         //service.addNewResBlock(index,ip,result);
         int i=Integer.parseInt(index);

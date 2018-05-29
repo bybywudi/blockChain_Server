@@ -31,4 +31,8 @@ public interface UserDao {
 	public int getUsersTotalNumber();
 
 	public List<String> getUserIps();
+
+	public void addUserCoin(int i,String uip);
+
+	public void addC(int i,String uip);
 }
