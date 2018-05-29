@@ -54,6 +54,13 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         BusinessServiceImpl service = new BusinessServiceImpl();
+        String host = service.getUserIp();
+
+        if(!service.startCal(host)){
+            request.setAttribute("message", "积分不足！！");
+            request.getRequestDispatcher("/WEB-INF/jsp/Cal1.jsp").forward(request, response);
+            return;
+        }
 
         List<String> list = service.getUserIps();
         String[] ips = new String[list.size()];
@@ -64,7 +71,7 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
 
         String qid = request.getParameter("qid");
         String mid = service.getMid();
-        String host = service.getUserIp();
+
 
 
         for(int i=0;i<ipLenth;i++){

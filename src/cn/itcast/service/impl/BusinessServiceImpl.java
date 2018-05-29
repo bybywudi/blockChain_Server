@@ -94,4 +94,8 @@ public class BusinessServiceImpl {
 	public void addUserCoin(int i,String ip){
 		dao.addUserCoin(i,ip);
 	}
+
+	public boolean startCal(String uip){
+		return dao.startCal(uip);
+	}
 }

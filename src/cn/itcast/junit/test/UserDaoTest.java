@@ -66,4 +66,12 @@ public class UserDaoTest {
 		String uip = "39.106.194.129";
 		dao.addC(1,uip);
 	}
+
+	@Test
+	public void testStartCal() {
+		UserDao dao = new UserDaoImpl();
+		String uip = "39.106.194.129";
+		System.out.println(dao.startCal(uip));
+
+	}
 }

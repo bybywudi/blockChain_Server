@@ -162,6 +162,25 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
+	public boolean startCal(String uip){
+		try {
+			Document document = XmlUtils.getBlocksDocument();
+			Element e2 = (Element) document.selectSingleNode("//user[@ip='"+uip+"']");
+			Attribute attr2 = e2.attribute("coin");
+			int newCoin = Integer.parseInt(e2.attributeValue("coin")) - 100;
+			if(newCoin >= 0){
+				attr2.setValue(Integer.toString(newCoin));
+				XmlUtils.write2BlocksXml(document);
+				return true;
+			}else{
+				return false;
+			}
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
     //获得用户IP
     public  String getUserIp() {
         try {
