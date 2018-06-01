@@ -7,11 +7,40 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 @WebServlet("/CalculateServlet")
 public class CalculateServlet extends javax.servlet.http.HttpServlet {
     public static final int PROBLEMSIZE = 100;
 
+    class Thread_Http_Get extends Thread{
+        private String httpurl;
+
+        public Thread_Http_Get(String httpurl){
+            this.httpurl = httpurl;
+        }
+
+        public void http_Get(){
+            try {
+
+                HttpURLConnection connection = null;
+                URL url = new URL(httpurl);
+                connection = (HttpURLConnection)url.openConnection();
+                connection.connect();
+                System.out.println(connection.getResponseCode());
+                connection.disconnect();
+            }catch(MalformedURLException e){
+                //e.printStackTrace();
+            }catch(IOException e){
+                //e.printStackTrace();
+            }
+        }
+
+        public void run() {
+            http_Get();
+        }
+
+    }
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         doGet(request, response);
     }
@@ -29,6 +58,16 @@ public class CalculateServlet extends javax.servlet.http.HttpServlet {
         int userTotalNum = service.getUsersTotalNumber() - 1;
         if(!service.findResIndex(index,mid)){
             service.addNewResBlock(index,ip,result,qid,mid,host);
+
+            List<String> list = service.getUserIps();
+            String[] ips = new String[list.size()];
+            list.toArray(ips);
+            int ipLenth = ips.length;
+            for(int i=0;i<ipLenth;i++){
+                CalculateServlet.Thread_Http_Get t = new CalculateServlet.Thread_Http_Get("http://"+ips[i]+":8080/block/BlockUpdateServlet"+"?index="+index+"&qid="+qid+"&mid="+mid+"&host="+host+"&result="+result+"&ip="+ip);
+                t.start();
+            }
+
             service.addUserCoin(1,ip);
         }
         //service.addNewResBlock(index,ip,result);
