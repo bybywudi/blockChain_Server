@@ -11,7 +11,10 @@
             host:${host }<br/>
             ip1:${ip1 }<br/>
             ip2:${ip2 }<br/>
-
+            hash:${hash }<br/>
+            index:${index }<br/>
+            res:${res }<br/>
+			response:${response }<br/>
 		</form>
 	</body>
 </html>

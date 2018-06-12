@@ -65,25 +65,38 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
         list.toArray(ips);
 
         ProblemBlock pb;
+        HttpURLConnection connection = null;
         for(int i=1;i<=10;i++){
             try {
                 pb = service.getIndexBlock(i);
-                HttpURLConnection connection = null;
-                URL url = new URL("http://39.106.194.129:8080/block/BlockCompareServlet"+"?index="+Integer.toString(i)+"&qid="+pb.getQid()+"&mid="+pb.getMid()+"&host="+pb.getHost()+"&ip="+pb.getIp()+"&res="+pb.getRes()+"&hash="+pb.getHash());
+
+                //URL url = new URL("http://39.106.194.129:8080/block/BlockCompareServlet"+"?index="+Integer.toString(i)+"&qid="+pb.getQid()+"&mid="+pb.getMid()+"&host="+pb.getHost()+"&ip="+pb.getIp()+"&res="+pb.getRes()+"&hash="+pb.getHash());
+                URL url = new URL("http://39.106.194.129:8080/block/BlockCompareServlet"+"?res="+pb.getRes()+"&hash="+pb.getHash());
                 connection = (HttpURLConnection)url.openConnection();
                 connection.connect();
-                System.out.println(connection.getResponseCode());
+               // System.out.println(connection.getResponseCode());
                 if(connection.getResponseCode() != 200){
                     request.setAttribute("message", "检测到区块链数据被修改！！");
+                    request.setAttribute("hash", pb.getHash());
+                    request.setAttribute("index", pb.getIndex());
+                    request.setAttribute("res", pb.getRes());
+                    request.setAttribute("response", connection.getResponseCode());
                     request.getRequestDispatcher("/WEB-INF/jsp/Cal1.jsp").forward(request, response);
-                    connection.disconnect();
+                    //connection.disconnect();
                     return;
+                }else{
+                    //connection.disconnect();
+                    continue;
                 }
-                connection.disconnect();
+
             }catch(MalformedURLException e){
                 //e.printStackTrace();
             }catch(IOException e){
                 //e.printStackTrace();
+            }finally {
+                if(connection != null){
+                    connection.disconnect();
+                }
             }
         }
 //===================判断积分是否充足========================
