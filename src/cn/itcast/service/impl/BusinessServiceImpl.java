@@ -67,7 +67,7 @@ public class BusinessServiceImpl {
 			pb.setQid(qid);
 			pb.setMid(mid);
 			pb.setHost(host);
-
+            pb.setTime(System.currentTimeMillis());
 			dao.addNewResBolck(pb,dao.blockHash(nowId));
 			//dao.addNewResBolck(pb,1);
 		} catch (Exception e) {
@@ -98,4 +98,8 @@ public class BusinessServiceImpl {
 	public boolean startCal(String uip){
 		return dao.startCal(uip);
 	}
+
+    public ProblemBlock getIndexBlock(int hash){
+	    return dao.getIndexBlock(hash);
+    }
 }

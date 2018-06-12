@@ -307,6 +307,7 @@ public class UserDaoImpl implements UserDao {
             user_tag.setAttributeValue("qid", block.getQid());
             user_tag.setAttributeValue("mid", block.getMid());
             user_tag.setAttributeValue("host", block.getHost());
+			user_tag.setAttributeValue("time", block.getTime().toString());
 			user_tag.setAttributeValue("res", block.getRes());
 
 			Element e = (Element) root.selectSingleNode("nowid");
@@ -314,6 +315,31 @@ public class UserDaoImpl implements UserDao {
 			attr.setValue(Integer.toString(nowid));
 
 			XmlUtils.write2ResXml(document);
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public ProblemBlock getIndexBlock(int hash) {
+		try {
+			Document document = XmlUtils.getResBlocksDocument();
+			Element e = (Element) document.selectSingleNode("//res[@hash='"+Integer.toString(hash)+"']");
+
+			if(e==null) {
+				return null;
+			}
+			ProblemBlock pb = new ProblemBlock();
+
+			pb.setHash(Integer.parseInt(e.attributeValue("hash")));
+			pb.setHost(e.attributeValue("host"));
+			pb.setIndex(e.attributeValue("index"));
+			pb.setIp(e.attributeValue("ip"));
+			pb.setMid(e.attributeValue("mid"));
+			pb.setQid(e.attributeValue("qid"));
+			pb.setRes(e.attributeValue("res"));
+
+			return pb;
 
 		} catch (Exception e) {
 			throw new RuntimeException(e);

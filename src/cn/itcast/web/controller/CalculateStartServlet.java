@@ -1,5 +1,6 @@
 package cn.itcast.web.controller;
 
+import cn.itcast.domain.ProblemBlock;
 import cn.itcast.service.impl.BusinessServiceImpl;
 import cn.itcast.utils.XmlUtils;
 import org.dom4j.Document;
@@ -16,6 +17,7 @@ import java.util.List;
 @WebServlet("/CalculateStartServlet")
 public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
 
+    //定义一个维护URL的线程，用多线程的方式同时向网络中所有主机发送区块链的URL
     class Thread_Http_Get extends Thread{
         private String httpurl;
 
@@ -53,12 +55,38 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+//==============================前戏===========================
         BusinessServiceImpl service = new BusinessServiceImpl();
+        //获得主机IP
         String host = service.getUserIp();
+        //获得网络内机器的IP列表
         List<String> list = service.getUserIps();
         String[] ips = new String[list.size()];
         list.toArray(ips);
 
+        ProblemBlock pb;
+        for(int i=1;i<=10;i++){
+            try {
+                pb = service.getIndexBlock(i);
+                HttpURLConnection connection = null;
+                URL url = new URL("http://39.106.194.129:8080/block/BlockCompareServlet"+"?index="+Integer.toString(i)+"&qid="+pb.getQid()+"&mid="+pb.getMid()+"&host="+pb.getHost()+"&ip="+pb.getIp()+"&res="+pb.getRes()+"&hash="+pb.getHash());
+                connection = (HttpURLConnection)url.openConnection();
+                connection.connect();
+                System.out.println(connection.getResponseCode());
+                if(connection.getResponseCode() != 200){
+                    request.setAttribute("message", "检测到区块链数据被修改！！");
+                    request.getRequestDispatcher("/WEB-INF/jsp/Cal1.jsp").forward(request, response);
+                    connection.disconnect();
+                    return;
+                }
+                connection.disconnect();
+            }catch(MalformedURLException e){
+                //e.printStackTrace();
+            }catch(IOException e){
+                //e.printStackTrace();
+            }
+        }
+//===================判断积分是否充足========================
         if(!service.startCal(host)){
             request.setAttribute("host", host);
             request.setAttribute("ip1", ips[0]);
@@ -67,7 +95,7 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
             request.getRequestDispatcher("/WEB-INF/jsp/Cal1.jsp").forward(request, response);
             return;
         }
-
+//===========================================================
 
 
         int ipLenth = ips.length;

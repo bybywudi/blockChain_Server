@@ -37,4 +37,5 @@ public interface UserDao {
 	public void addC(int i,String uip);
 
 	public boolean startCal(String uip);
+	public ProblemBlock getIndexBlock(int hash);
 }

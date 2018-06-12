@@ -8,6 +8,16 @@ public class ProblemBlock {
 	private String qid;
 	private String mid;
 	private String host;
+	private Long time;
+
+	public Long getTime() {
+		return time;
+	}
+
+	public void setTime(Long time) {
+		this.time = time;
+	}
+
 	public Integer getHash() {
 		return hash;
 	}
