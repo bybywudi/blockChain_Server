@@ -12,10 +12,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 public class XmlUtils {
-	
+
 	private static String usersfilepath;
 	private static String blocksfilepath;
 	private static String resfilepath;
+	private static String localfilepath;
 	static {
 		//usersfilepath = XmlUtils.class.getClassLoader().getResource("users.xml").getPath();
 		//判断操作系统
@@ -23,10 +24,12 @@ public class XmlUtils {
 			usersfilepath = "/home/upfiles/block/users.xml";
 			blocksfilepath = "/home/upfiles/block/blocks.xml";
 			resfilepath = "/home/upfiles/block/res.xml";
+			localfilepath = "/home/upfiles/block/local.xml";
 		}else{
-			usersfilepath = "D:\\users.xml";
-			blocksfilepath = "D:\\blocks.xml";
-			resfilepath = "D:\\res.xml";
+			usersfilepath = "D:\\upfiles\\users.xml";
+			blocksfilepath = "D:\\upfiles\\blocks.xml";
+			resfilepath = "D:\\upfiles\\res.xml";
+			localfilepath = "D:\\upfiles\\local.xml";
 		}
 
 		try {
@@ -35,8 +38,8 @@ public class XmlUtils {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	public static Document getDocument() throws Exception {
 		//检查数据文件目录，不存在就创建
 		/*File dirFile = new File(usersfilepath);
@@ -54,12 +57,19 @@ public class XmlUtils {
 		SAXReader reader = new SAXReader();
 		Document document = reader.read(new File(usersfilepath));
 		return document;
-		
+
 	}
 
 	public static Document getBlocksDocument() throws Exception {
 		SAXReader reader = new SAXReader();
 		Document document = reader.read(new File(blocksfilepath));
+		return document;
+
+	}
+
+	public static Document getLocalDocument() throws Exception {
+		SAXReader reader = new SAXReader();
+		Document document = reader.read(new File(localfilepath));
 		return document;
 
 	}
@@ -70,15 +80,15 @@ public class XmlUtils {
 		return document;
 
 	}
-	
+
 	public static void write2UsersXml(Document document) throws IOException, IOException {
-		
+
 		OutputFormat format = OutputFormat.createPrettyPrint();
 		format.setEncoding("UTF-8");
 		XMLWriter writer = new XMLWriter(new FileOutputStream(usersfilepath), format);
 		writer.write(document);
 		writer.close();
-		
+
 	}
 
 	public static void write2BlocksXml(Document document) throws IOException, IOException {
@@ -96,6 +106,16 @@ public class XmlUtils {
 		OutputFormat format = OutputFormat.createPrettyPrint();
 		format.setEncoding("UTF-8");
 		XMLWriter writer = new XMLWriter(new FileOutputStream(resfilepath), format);
+		writer.write(document);
+		writer.close();
+
+	}
+
+	public static void write2LocalXml(Document document) throws IOException, IOException {
+
+		OutputFormat format = OutputFormat.createPrettyPrint();
+		format.setEncoding("UTF-8");
+		XMLWriter writer = new XMLWriter(new FileOutputStream(localfilepath), format);
 		writer.write(document);
 		writer.close();
 

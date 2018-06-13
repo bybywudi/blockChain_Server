@@ -20,6 +20,8 @@
     <a href="${pageContext.request.contextPath }/RegisterUIServlet">注册</a>
     <a href="${pageContext.request.contextPath }/LoginUIServlet">登录</a>
     <a href="${pageContext.request.contextPath }/BlockUIServlet">区块</a>
+    <a href="${pageContext.request.contextPath }/CalculateStartUIServlet">计算</a>
+
   </c:if>
 </div>
 <br/>

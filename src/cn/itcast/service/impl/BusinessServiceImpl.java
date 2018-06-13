@@ -11,6 +11,8 @@ import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.Element;
 
+import java.util.List;
+
 //对web层提供所有业务服务
 public class BusinessServiceImpl {
 
@@ -44,11 +46,11 @@ public class BusinessServiceImpl {
 	}
 
 	//判断当前的子问题有没有被求解出来
-	public boolean findResIndex(String index){
-		return dao.findResIndex(index);
+	public boolean findResIndex(String index,String mid){
+		return dao.findResIndex(index,mid);
 	}
 
-	public void addNewResBlock(String index,String ip,String res){
+	public void addNewResBlock(String index,String ip,String res,String qid,String mid,String host){
 		try {
 			Document document = XmlUtils.getResBlocksDocument();
 			Element root = document.getRootElement();
@@ -62,7 +64,10 @@ public class BusinessServiceImpl {
 			pb.setIndex(index);
 			pb.setIp(ip);
 			pb.setRes(res);
-
+			pb.setQid(qid);
+			pb.setMid(mid);
+			pb.setHost(host);
+            pb.setTime(System.currentTimeMillis());
 			dao.addNewResBolck(pb,dao.blockHash(nowId));
 			//dao.addNewResBolck(pb,1);
 		} catch (Exception e) {
@@ -70,4 +75,31 @@ public class BusinessServiceImpl {
 		}
 	}
 
+	public String getMid(){
+		return dao.getMid();
+	}
+
+	public String getUserIp(){
+		return dao.getUserIp();
+	}
+
+	public int getUsersTotalNumber(){
+		return dao.getUsersTotalNumber();
+	}
+
+	public List<String> getUserIps(){
+		return dao.getUserIps();
+	}
+
+	public void addUserCoin(int i,String ip){
+		dao.addUserCoin(i,ip);
+	}
+
+	public boolean startCal(String uip){
+		return dao.startCal(uip);
+	}
+
+    public ProblemBlock getIndexBlock(int hash){
+	    return dao.getIndexBlock(hash);
+    }
 }

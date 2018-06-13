@@ -10,6 +10,8 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDaoImpl implements UserDao {
 	
@@ -58,6 +60,140 @@ public class UserDaoImpl implements UserDao {
 			throw new RuntimeException(e);
 		}
 	}
+
+	//获得用户总数
+	public int getUsersTotalNumber(){
+		try {
+			Document document = XmlUtils.getBlocksDocument();
+			Element root = document.getRootElement();
+			Element e = (Element) root.selectSingleNode("nowid");
+			Attribute attr = e.attribute("id");
+
+			return Integer.parseInt(attr.getValue());
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	//获得所有用户的IP存在list中
+	public List<String> getUserIps(){
+		try {
+			Document document = XmlUtils.getBlocksDocument();
+
+			int usersTotalNumber = getUsersTotalNumber();
+			List<String> list = new ArrayList<String>();
+			String localIp = getUserIp();
+			for(int i=1;i<=usersTotalNumber;i++){
+				Element e = (Element) document.selectSingleNode("//user[@id='"+Integer.toString(i)+"']");
+				Attribute attr = e.attribute("ip");
+				String ip = attr.getValue();
+				if(!(ip.equals(localIp))){
+					list.add(ip);
+				}
+			}
+			return list;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	//获得任务ID
+    public String getMid(){
+        try {
+            Document document = XmlUtils.getLocalDocument();
+            Element root = document.getRootElement();
+
+            Element e = (Element) root.selectSingleNode("nowid");
+            Attribute attr = e.attribute("id");
+            int mid = Integer.parseInt(e.attributeValue("id")) + 1;//任务ID自增
+            attr.setValue(Integer.toString(mid));
+
+            XmlUtils.write2LocalXml(document);
+
+            return Integer.toString(mid);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+	public void addUserCoin(int i,String uip){
+		try {
+			/*Document document = XmlUtils.getLocalDocument();
+			Element e = (Element) document.selectSingleNode("//local[@attr='coin']");
+			Attribute attr = e.attribute("id");
+			int newCoin = Integer.parseInt(e.attributeValue("id")) + i;//任务ID自增
+			attr.setValue(Integer.toString(newCoin));
+			XmlUtils.write2LocalXml(document);*/
+
+			Document document2 = XmlUtils.getBlocksDocument();
+			//Element e2 = (Element) document2.selectSingleNode("//user[@id='1']");//user[@id='1']
+			//e2 = (Element) document.selectSingleNode("//user[@id='"+user+"']");
+
+			Element e2 = (Element) document2.selectSingleNode("//user[@ip='"+uip+"']");
+			//System.out.println(uip);
+			Attribute attr2 = e2.attribute("coin");
+			int newCoin = Integer.parseInt(e2.attributeValue("coin")) + i;//任务ID自增
+			attr2.setValue(Integer.toString(newCoin));
+			XmlUtils.write2BlocksXml(document2);
+
+			/*Attribute attr2 = e2.attribute("coin");
+			attr2.setValue(Integer.toString(newCoin));
+			XmlUtils.write2BlocksXml(document2);*/
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void addC(int i,String uip){
+		try {
+
+			Document document = XmlUtils.getBlocksDocument();
+			Element e2 = (Element) document.selectSingleNode("//user[@ip='"+uip+"']");
+			System.out.println(uip);
+			Attribute attr2 = e2.attribute("coin");
+			attr2.setValue(Integer.toString(1));
+			XmlUtils.write2BlocksXml(document);
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public boolean startCal(String uip){
+		try {
+			Document document = XmlUtils.getBlocksDocument();
+			Element e2 = (Element) document.selectSingleNode("//user[@ip='"+uip+"']");
+			Attribute attr2 = e2.attribute("coin");
+			int newCoin = Integer.parseInt(e2.attributeValue("coin")) - 100;
+			if(newCoin >= 0){
+				attr2.setValue(Integer.toString(newCoin));
+				XmlUtils.write2BlocksXml(document);
+				return true;
+			}else{
+				return false;
+			}
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+    //获得用户IP
+    public  String getUserIp() {
+        try {
+            Document document = XmlUtils.getLocalDocument();
+            Element e = (Element) document.selectSingleNode("//local[@attr='localip']");
+            if(e==null) {
+                return null;
+            }
+            return e.attributeValue("id");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	public int blockHash(int id){
 		return id + 1;
@@ -143,10 +279,10 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	//查找一个子问题的结果是否已经被计算出来
-	public boolean findResIndex(String index) {
+	public boolean findResIndex(String index,String mid) {
 		try {
 			Document document = XmlUtils.getResBlocksDocument();
-			Element e = (Element) document.selectSingleNode("//res[@index='"+index+"']");
+			Element e = (Element) document.selectSingleNode("//res[@index='"+index+"' and @mid='"+mid+"']");
 			if(e==null) {
 				return false;
 			}
@@ -168,6 +304,10 @@ public class UserDaoImpl implements UserDao {
 			user_tag.setAttributeValue("prehash", Integer.toString(preHash));
 			user_tag.setAttributeValue("index", block.getIndex());
 			user_tag.setAttributeValue("ip", block.getIp());
+            user_tag.setAttributeValue("qid", block.getQid());
+            user_tag.setAttributeValue("mid", block.getMid());
+            user_tag.setAttributeValue("host", block.getHost());
+			user_tag.setAttributeValue("time", block.getTime().toString());
 			user_tag.setAttributeValue("res", block.getRes());
 
 			Element e = (Element) root.selectSingleNode("nowid");
@@ -175,6 +315,31 @@ public class UserDaoImpl implements UserDao {
 			attr.setValue(Integer.toString(nowid));
 
 			XmlUtils.write2ResXml(document);
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public ProblemBlock getIndexBlock(int hash) {
+		try {
+			Document document = XmlUtils.getResBlocksDocument();
+			Element e = (Element) document.selectSingleNode("//res[@hash='"+Integer.toString(hash)+"']");
+
+			if(e==null) {
+				return null;
+			}
+			ProblemBlock pb = new ProblemBlock();
+
+			pb.setHash(Integer.parseInt(e.attributeValue("hash")));
+			pb.setHost(e.attributeValue("host"));
+			pb.setIndex(e.attributeValue("index"));
+			pb.setIp(e.attributeValue("ip"));
+			pb.setMid(e.attributeValue("mid"));
+			pb.setQid(e.attributeValue("qid"));
+			pb.setRes(e.attributeValue("res"));
+
+			return pb;
 
 		} catch (Exception e) {
 			throw new RuntimeException(e);

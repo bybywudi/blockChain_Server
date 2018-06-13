@@ -1,6 +1,5 @@
 package cn.itcast.web.controller;
 
-import cn.itcast.domain.ProblemBlock;
 import cn.itcast.service.impl.BusinessServiceImpl;
 import cn.itcast.utils.XmlUtils;
 import org.dom4j.Document;
@@ -10,14 +9,12 @@ import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.*;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-@WebServlet("/CalculateStartServlet")
-public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
+@WebServlet("/TestCalculateStartServlet")
+public class TestCalculateStartServlet extends javax.servlet.http.HttpServlet {
 
-    //定义一个维护URL的线程，用多线程的方式同时向网络中所有主机发送区块链的URL
     class Thread_Http_Get extends Thread{
         private String httpurl;
 
@@ -55,74 +52,33 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-//==============================前戏===========================
         BusinessServiceImpl service = new BusinessServiceImpl();
-        //获得主机IP
-        String host = service.getUserIp();
-        //获得网络内机器的IP列表
+
         List<String> list = service.getUserIps();
         String[] ips = new String[list.size()];
         list.toArray(ips);
-
-        ProblemBlock pb;
-        HttpURLConnection connection = null;
-        for(int i=1;i<=10;i++){
-            try {
-                pb = service.getIndexBlock(i);
-
-                //URL url = new URL("http://39.106.194.129:8080/block/BlockCompareServlet"+"?index="+Integer.toString(i)+"&qid="+pb.getQid()+"&mid="+pb.getMid()+"&host="+pb.getHost()+"&ip="+pb.getIp()+"&res="+pb.getRes()+"&hash="+pb.getHash());
-                URL url = new URL("http://39.106.194.129:8080/block/BlockCompareServlet"+"?res="+pb.getRes()+"&hash="+pb.getHash());
-                connection = (HttpURLConnection)url.openConnection();
-                connection.connect();
-               // System.out.println(connection.getResponseCode());
-                if(connection.getResponseCode() != 200){
-                    request.setAttribute("message", "检测到区块链数据被修改！！");
-                    request.setAttribute("hash", pb.getHash());
-                    request.setAttribute("index", pb.getIndex());
-                    request.setAttribute("res", pb.getRes());
-                    request.setAttribute("response", connection.getResponseCode());
-                    request.getRequestDispatcher("/WEB-INF/jsp/Cal1.jsp").forward(request, response);
-                    //connection.disconnect();
-                    return;
-                }else{
-                    //connection.disconnect();
-                    continue;
-                }
-
-            }catch(MalformedURLException e){
-                //e.printStackTrace();
-            }catch(IOException e){
-                //e.printStackTrace();
-            }finally {
-                if(connection != null){
-                    connection.disconnect();
-                }
-            }
-        }
-//===================判断积分是否充足========================
-        if(!service.startCal(host)){
-            request.setAttribute("host", host);
-            request.setAttribute("ip1", ips[0]);
-            request.setAttribute("ip2", ips[1]);
-            request.setAttribute("message", "积分不足！！");
-            request.getRequestDispatcher("/WEB-INF/jsp/Cal1.jsp").forward(request, response);
-            return;
-        }
-//===========================================================
-
 
         int ipLenth = ips.length;
         int j = 0;
 
         String qid = request.getParameter("qid");
         String mid = service.getMid();
+        String host = service.getUserIp();
 
-
-
-        for(int i=0;i<ipLenth;i++){
-            Thread_Http_Get t = new Thread_Http_Get("http://"+ips[i]+"/block/CalculateServlet"+"?index="+Integer.toString(i)+"&qid="+qid+"&mid="+mid+"&host="+host);
+        PrintWriter out = response.getWriter();
+        out.print(ips[0]);
+        out.print(ips[1]);
+        out.print(host);
+        out.write(ips[0]);
+        out.write(ips[1]);
+        out.write(host);
+        System.out.println(ips[0]);
+        System.out.println(ips[1]);
+        System.out.println(host);
+       /* for(int i=0;i<ipLenth;i++){
+            Thread_Http_Get t = new Thread_Http_Get("http://"+ips[i]+":8088/block/CalculateServlet"+"?index="+Integer.toString(i)+"&qid="+qid+"&mid="+mid+"&host="+host);
             t.start();
-        }
+        }*/
 
         return;
         /*for(int i=0;i<ipLenth;i++){
