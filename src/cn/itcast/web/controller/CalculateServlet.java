@@ -64,7 +64,7 @@ public class CalculateServlet extends javax.servlet.http.HttpServlet {
             list.toArray(ips);
             int ipLenth = ips.length;
             for(int i=0;i<ipLenth;i++){
-                CalculateServlet.Thread_Http_Get t = new CalculateServlet.Thread_Http_Get("http://"+ips[i]+":8080/block/BlockUpdateServlet"+"?index="+index+"&qid="+qid+"&mid="+mid+"&host="+host+"&result="+result+"&ip="+ip);
+                CalculateServlet.Thread_Http_Get t = new CalculateServlet.Thread_Http_Get("http://"+ips[i]+"/block/BlockUpdateServlet"+"?index="+index+"&qid="+qid+"&mid="+mid+"&host="+host+"&result="+result+"&ip="+ip);
                 t.start();
             }
 
@@ -80,7 +80,7 @@ public class CalculateServlet extends javax.servlet.http.HttpServlet {
             if(!service.findResIndex(Integer.toString(i),mid)){
                 HttpURLConnection connection = null;
                 try{
-                    URL u = new URL("http://"+ip+":8080/block/CalculateServlet"+"?index="+Integer.toString(i)+"&qid="+qid+"&mid="+mid+"&host="+host);
+                    URL u = new URL("http://"+ip+"/block/CalculateServlet"+"?index="+Integer.toString(i)+"&qid="+qid+"&mid="+mid+"&host="+host);
                     connection = (HttpURLConnection)u.openConnection();
                     connection.setConnectTimeout(200);
                     //connection.setReadTimeout(2000);

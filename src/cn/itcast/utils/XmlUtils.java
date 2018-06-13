@@ -26,10 +26,10 @@ public class XmlUtils {
 			resfilepath = "/home/upfiles/block/res.xml";
 			localfilepath = "/home/upfiles/block/local.xml";
 		}else{
-			usersfilepath = "D:\\users.xml";
-			blocksfilepath = "D:\\blocks.xml";
-			resfilepath = "D:\\res.xml";
-			localfilepath = "D:\\local.xml";
+			usersfilepath = "D:\\upfiles\\users.xml";
+			blocksfilepath = "D:\\upfiles\\blocks.xml";
+			resfilepath = "D:\\upfiles\\res.xml";
+			localfilepath = "D:\\upfiles\\local.xml";
 		}
 
 		try {

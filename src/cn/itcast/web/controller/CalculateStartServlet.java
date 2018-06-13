@@ -120,7 +120,7 @@ public class CalculateStartServlet extends javax.servlet.http.HttpServlet {
 
 
         for(int i=0;i<ipLenth;i++){
-            Thread_Http_Get t = new Thread_Http_Get("http://"+ips[i]+":8080/block/CalculateServlet"+"?index="+Integer.toString(i)+"&qid="+qid+"&mid="+mid+"&host="+host);
+            Thread_Http_Get t = new Thread_Http_Get("http://"+ips[i]+"/block/CalculateServlet"+"?index="+Integer.toString(i)+"&qid="+qid+"&mid="+mid+"&host="+host);
             t.start();
         }
 
